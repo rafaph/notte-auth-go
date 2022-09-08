@@ -1,16 +1,9 @@
 package entities
 
-import (
-	"github.com/go-playground/validator/v10"
-)
+import "github.com/rafaph/notte-auth/lib/validator"
 
 type User struct {
 	Id string `validate:"required,uuid4"`
-}
-
-func (user *User) validate() error {
-	validate := validator.New()
-	return validate.Struct(user)
 }
 
 func NewUser(id string) (*User, error) {
@@ -18,7 +11,7 @@ func NewUser(id string) (*User, error) {
 		Id: id,
 	}
 
-	err := user.validate()
+	err := validator.Validate(user)
 
 	if err != nil {
 		return nil, err

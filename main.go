@@ -1,13 +1,12 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
 
-	"github.com/rafaph/notte-auth/domain/entities"
-)
+func Run(sut ...int) {
+	fmt.Println(len(sut))
+}
 
 func main() {
-	user, err := entities.NewUser("batata")
-	fmt.Println(user)
-	fmt.Println(err)
+	Run()
+
 }

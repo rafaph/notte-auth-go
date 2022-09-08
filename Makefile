@@ -13,3 +13,16 @@ up:
 .PHONY: shell
 shell:
 	$(call run,bash)
+
+
+.PHONY: test
+test:
+	$(call run,sh -c "ginkgo -vv ./...")
+
+.PHONY: test_cov
+test_cov:
+	$(call run,sh -c "rm -f coverage.* && go test ./... -coverprofile=coverage.out && go tool cover -html=coverage.out -o coverage.html")
+
+.PHONY: fmt
+fmt:
+	$(call run,go fmt $$(go list ./... | grep -v /_go/))
