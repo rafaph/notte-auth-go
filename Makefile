@@ -25,4 +25,4 @@ test_cov:
 
 .PHONY: fmt
 fmt:
-	$(call run,go fmt $$(go list ./... | grep -v /_go/))
+	$(call run,go fmt $$(go list ./...))
