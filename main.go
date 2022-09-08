@@ -1,12 +1,12 @@
 package main
 
-import "fmt"
-
-func Run(sut ...int) {
-	fmt.Println(len(sut))
-}
+import (
+	"fmt"
+	"github.com/rafaph/notte-auth/config"
+)
 
 func main() {
-	Run()
-
+	conf, err := config.NewConfig()
+	fmt.Println(err)
+	fmt.Println(conf)
 }
