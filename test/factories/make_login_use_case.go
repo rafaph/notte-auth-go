@@ -32,7 +32,7 @@ func MakeLoginUseCase(suts ...*SutTypes) *SutTypes {
 	token := faker.UUIDHyphenated()
 	user, _ := entities.NewUser(faker.UUIDHyphenated())
 	getRepository := NewMockGetUserRepository(user, nil)
-	tokenGenerator := NewMockTokenGenerator(&token, nil)
+	tokenGenerator := NewMockTokenGenerator(token, nil)
 
 	if sut.GetUserRepository == nil {
 		sut.GetUserRepository = getRepository

@@ -40,7 +40,7 @@ func (useCase *LoginUseCase) Execute(input LoginUseCaseInput) (*LoginUseCaseOutp
 		return nil, err
 	}
 
-	return &LoginUseCaseOutput{Token: *token}, nil
+	return &LoginUseCaseOutput{Token: token}, nil
 }
 
 func NewLoginUseCase(getUserRepository repositories.GetUserRepository, tokenGenerator services.TokenGenerator) *LoginUseCase {

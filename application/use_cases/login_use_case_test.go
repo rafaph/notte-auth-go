@@ -60,7 +60,7 @@ var _ = Describe("application/use_cases/login_use_case", func() {
 	})
 
 	It("should return an error if tokenGenerator fails", func() {
-		tokenGenerator := NewMockTokenGenerator(nil, fmt.Errorf("fail to generate token"))
+		tokenGenerator := NewMockTokenGenerator("", fmt.Errorf("fail to generate token"))
 		sut := &factories.SutTypes{
 			TokenGenerator: tokenGenerator,
 		}
