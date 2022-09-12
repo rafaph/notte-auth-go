@@ -19,11 +19,8 @@ func setValueFromEnv[T any](value *T, key string, transforms ...func(value strin
 		}
 	}
 
-	env, ok := os.LookupEnv(key)
-
-	if ok {
-		transformedEnv, err := transform(env)
-		if err == nil {
+	if env, ok := os.LookupEnv(key); ok {
+		if transformedEnv, err := transform(env); err == nil {
 			*value = transformedEnv
 		}
 	}
