@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/go-faker/faker/v4 v4.0.0-beta.2
 	github.com/go-playground/validator/v10 v10.11.0
+	github.com/kataras/jwt v0.1.8
 	github.com/onsi/ginkgo/v2 v2.1.6
 	github.com/onsi/gomega v1.20.2
 	github.com/stretchr/testify v1.8.0
@@ -14,7 +15,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
