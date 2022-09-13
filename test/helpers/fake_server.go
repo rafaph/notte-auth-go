@@ -43,14 +43,20 @@ func (f *FakeServer) Returns(context Context) {
 func (f *FakeServer) getHandler() http.Handler {
 	mux := http.NewServeMux()
 
+	mux.HandleFunc("/", func(responseWriter http.ResponseWriter, request *http.Request) {
+		responseWriter.Header().Add("Content-Type", "application/json; charset=utf-8")
+		responseWriter.WriteHeader(http.StatusNotFound)
+		_, _ = responseWriter.Write([]byte(`{"message": "not found"}`))
+	})
+
 	for _, handler := range f.handlers {
 		mux.HandleFunc(handler.endpoint.path, func(responseWriter http.ResponseWriter, request *http.Request) {
+			responseWriter.Header().Add("Content-Type", "application/json; charset=utf-8")
 			if request.Method != handler.endpoint.method {
-				http.Error(responseWriter, "invalid http method", http.StatusMethodNotAllowed)
+				responseWriter.WriteHeader(http.StatusMethodNotAllowed)
+				_, _ = responseWriter.Write([]byte(`{"message": "method not allowed"}`))
 				return
 			}
-
-			responseWriter.Header().Add("Content-Type", "application/json")
 			responseWriter.WriteHeader(handler.context.StatusCode)
 			_, _ = responseWriter.Write([]byte(handler.context.ResponseBody))
 		})

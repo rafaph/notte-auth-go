@@ -35,7 +35,8 @@ var _ = Describe("external/notte/http/notte_user_client", func() {
 			conf := &config.UserConfig{BaseUrl: baseUrl}
 			client := NewNotteUserClient(conf)
 			// when
-			response, err := client.GetUser(GetUserRequest{Email: faker.Email(), Password: faker.Password()})
+			request := GetUserRequest{Email: faker.Email(), Password: faker.Password()}
+			response, err := client.GetUser(request)
 			// then
 			Expect(response).ToNot(BeNil())
 			Expect(response.Id).To(Equal(userId))
