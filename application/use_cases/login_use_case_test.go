@@ -14,7 +14,7 @@ import (
 
 func TestLoginUseCase(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Login Use Case Suite")
+	RunSpecs(t, "Use Case Suite")
 }
 
 var _ = Describe("application/use_cases/login_use_case", func() {
@@ -46,7 +46,7 @@ var _ = Describe("application/use_cases/login_use_case", func() {
 
 	It("should return an error if getUserRepository fails", func() {
 		getUserRepository := NewMockGetUserRepository(nil, fmt.Errorf("fail to get user"))
-		sut := &factories.SutTypes{
+		sut := &factories.LoginUseCaseTypes{
 			GetUserRepository: getUserRepository,
 		}
 		input := factories.MakeLoginUseCaseInput()
@@ -61,7 +61,7 @@ var _ = Describe("application/use_cases/login_use_case", func() {
 
 	It("should return an error if tokenGenerator fails", func() {
 		tokenGenerator := NewMockTokenGenerator("", fmt.Errorf("fail to generate token"))
-		sut := &factories.SutTypes{
+		sut := &factories.LoginUseCaseTypes{
 			TokenGenerator: tokenGenerator,
 		}
 		input := factories.MakeLoginUseCaseInput()
