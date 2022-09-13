@@ -46,13 +46,27 @@ func newJwtConfig() JwtConfig {
 	return conf
 }
 
+type UserConfig struct {
+	BaseUrl string `validate:"required"`
+}
+
+func newUserConfig() UserConfig {
+	conf := UserConfig{}
+
+	setValueFromEnv(&conf.BaseUrl, "USER_BASE_URL")
+
+	return conf
+}
+
 type Config struct {
-	Jwt JwtConfig `validate:"required,dive,required"`
+	Jwt  JwtConfig  `validate:"required,dive,required"`
+	User UserConfig `validate:"required,dive,required"`
 }
 
 func NewConfig() (*Config, error) {
 	config := &Config{
-		Jwt: newJwtConfig(),
+		Jwt:  newJwtConfig(),
+		User: newUserConfig(),
 	}
 
 	err := validator.Validate(config)
