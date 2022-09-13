@@ -1,13 +1,12 @@
 package http
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
+	"github.com/imroc/req/v3"
 	"github.com/rafaph/notte-auth/config"
 	. "github.com/rafaph/notte-auth/infrastructure/repositories/http"
 	"io"
-	"net/http"
+	"log"
 	"net/url"
 )
 
@@ -20,31 +19,27 @@ func end(body io.ReadCloser) {
 }
 
 func (n *NotteUserClient) GetUser(request GetUserRequest) (*GetUserResponse, error) {
-	requestJson, _ := json.Marshal(request)
-	requestBody := bytes.NewBuffer(requestJson)
-	endpoint, _ := url.JoinPath(n.config.BaseUrl, "users/verify")
-
-	response, err := http.Post(endpoint, "application/json", requestBody)
-	defer end(response.Body)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("invalid credentials")
-	}
-
-	responseJson, err := io.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
+	endpoint, _ := url.JoinPath(n.config.BaseUrl, "users", "verify")
 
 	getUserResponse := GetUserResponse{}
-	err = json.Unmarshal(responseJson, &getUserResponse)
+	var apiError map[string]interface{}
+
+	res, err := req.
+		R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Accept", "application/json").
+		SetResult(&getUserResponse).
+		SetError(&apiError).
+		SetBody(request).
+		Post(endpoint)
 
 	if err != nil {
 		return nil, err
+	}
+
+	if res.IsError() {
+		log.Println("Fail to get resource", apiError)
+		return nil, fmt.Errorf("fail to get resource")
 	}
 
 	return &getUserResponse, nil
