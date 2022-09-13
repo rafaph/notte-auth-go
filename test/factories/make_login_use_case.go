@@ -10,7 +10,7 @@ import (
 	. "github.com/rafaph/notte-auth/test/services/doubles"
 )
 
-type SutTypes struct {
+type LoginUseCaseTypes struct {
 	ReturnedToken     string
 	ReturnedUser      entities.User
 	GetUserRepository repositories.GetUserRepository
@@ -18,15 +18,15 @@ type SutTypes struct {
 	UseCase           *LoginUseCase
 }
 
-func MakeLoginUseCase(suts ...*SutTypes) *SutTypes {
-	var sut *SutTypes = nil
+func MakeLoginUseCase(suts ...*LoginUseCaseTypes) *LoginUseCaseTypes {
+	var sut *LoginUseCaseTypes = nil
 
 	if len(suts) > 0 {
 		sut = suts[0]
 	}
 
 	if sut == nil {
-		sut = &SutTypes{}
+		sut = &LoginUseCaseTypes{}
 	}
 
 	token := faker.UUIDHyphenated()
