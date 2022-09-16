@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+ROOT_DIR=$(dirname "$0")/..
+
+cd "$ROOT_DIR"
+
+# Remove old coverage files
+rm -f coverage.*
+
+# Run tests with coverage
+go test -v ./... -coverpkg=./... -coverprofile=coverage.full
+
+# Remove test folder from coverage
+awk '$1 !~ /test/ {print}' coverage.full > coverage.out
+
+# Generate coverage output as html
+go tool cover -html=coverage.out -o coverage.html
+
+# Show coverage on the screen
+go tool cover -func=coverage.out
+
+# Remove temporary coverage report
+rm -f coverage.full
+
+cd -
