@@ -14,14 +14,13 @@ up:
 shell:
 	$(call run,bash)
 
-
 .PHONY: test
 test:
-	$(call run,sh -c "ginkgo -vv ./...")
+	$(call run,sh bin/test)
 
 .PHONY: test_cov
 test_cov:
-	$(call run,sh -c "rm -f coverage.* && go test ./... -coverpkg=./... -coverprofile=coverage.out && go tool cover -html=coverage.out -o coverage.html")
+	$(call run,sh bin/test-cov)
 
 .PHONY: fmt
 fmt:
