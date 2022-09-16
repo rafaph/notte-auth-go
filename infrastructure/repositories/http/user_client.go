@@ -6,7 +6,7 @@ type GetUserRequest struct {
 }
 
 type GetUserResponse struct {
-	Id string `json:"id"`
+	Id string `json:"id" validate:"required"`
 }
 
 type UserClient interface {
