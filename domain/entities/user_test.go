@@ -8,9 +8,9 @@ import (
 	"testing"
 )
 
-func TestUser(t *testing.T) {
+func TestEntities(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "User Suite")
+	RunSpecs(t, "domain/entities tests")
 }
 
 var _ = Describe("domain/entities/user", func() {
@@ -18,6 +18,7 @@ var _ = Describe("domain/entities/user", func() {
 		It("should return an error when id is invalid", func() {
 			// given/when
 			user, err := entities.NewUser(faker.Word())
+
 			// then
 			Expect(user).To(BeNil())
 			Expect(err).ToNot(BeNil())
@@ -26,6 +27,7 @@ var _ = Describe("domain/entities/user", func() {
 		It("should return an user when id is valid", func() {
 			// given/when
 			user, err := entities.NewUser(faker.UUIDHyphenated())
+
 			// then
 			Expect(user).ToNot(BeNil())
 			Expect(err).To(BeNil())

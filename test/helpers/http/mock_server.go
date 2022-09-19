@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/rafaph/notte-auth/lib/validator"
+	"log"
 	"net/http"
 	"net/http/httptest"
 )
@@ -34,7 +35,7 @@ func (f *mockServer) When(method string, path string) *mockServer {
 
 func (f *mockServer) Return(response MockResponse) {
 	if err := validator.Validate(f.currentRoute); err != nil {
-		panic("invalid route, please call `When` first.")
+		log.Panicln("invalid route, please call `When` first.")
 	}
 
 	f.handlers = append(f.handlers, mockHandler{f.currentRoute, response})

@@ -6,17 +6,25 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/rafaph/notte-auth/infrastructure/services"
 	"github.com/rafaph/notte-auth/test/factories"
+	"testing"
 )
 
-var _ = Describe("infrastructure/servies/jwt_token_generator", func() {
+func TestInfrastructureServices(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "infrastructure/services tests")
+}
+
+var _ = Describe("infrastructure/services/jwt_token_generator", func() {
 	Context("Generate", func() {
 		It("should generate a token successfully", func() {
 			// given
 			jwtConfig := factories.MakeJwtConfig()
 			tokenGenerator := services.NewJwtTokenGenerator(jwtConfig)
 			user := factories.MakeUser()
+
 			// when
 			token, err := tokenGenerator.Generate(user)
+
 			// then
 			Expect(err).To(BeNil())
 			Expect(token).ToNot(BeEmpty())
@@ -28,8 +36,10 @@ var _ = Describe("infrastructure/servies/jwt_token_generator", func() {
 			jwtConfig.PrivateKey = faker.Word()
 			tokenGenerator := services.NewJwtTokenGenerator(jwtConfig)
 			user := factories.MakeUser()
+
 			// when
 			token, err := tokenGenerator.Generate(user)
+
 			// then
 			Expect(err).ToNot(BeNil())
 			Expect(token).To(BeEmpty())

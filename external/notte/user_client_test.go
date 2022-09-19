@@ -1,19 +1,20 @@
-package http_test
+package notte_test
 
 import (
 	"github.com/go-faker/faker/v4"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	. "github.com/rafaph/notte-auth/external/notte/http"
+	. "github.com/rafaph/notte-auth/external/notte"
 	. "github.com/rafaph/notte-auth/test/factories"
 	. "github.com/rafaph/notte-auth/test/helpers/http"
+	"github.com/rafaph/notte-auth/test/helpers/notte"
 	"net/http"
 	"testing"
 )
 
-func TestNotteHttpSuite(t *testing.T) {
+func TestExternalNotte(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Notte Http Suite")
+	RunSpecs(t, "external/notte tests")
 }
 
 var _ = Describe("external/notte/http/notte_user_client", func() {
@@ -23,11 +24,13 @@ var _ = Describe("external/notte/http/notte_user_client", func() {
 			StatusCode: http.StatusOK,
 			Body:       map[string]string{"id": userId},
 		}
-		NewTestNotteUserClient(response).Run(func(client *NotteUserClient) {
+		notte.NewUserClientTestCase(response).Run(func(client *UserClient) {
 			// given
 			request := MakeGetUserRequest()
+
 			// when
 			response, err := client.GetUser(request)
+
 			// then
 			Expect(response).ToNot(BeNil())
 			Expect(response.Id).To(Equal(userId))
@@ -40,11 +43,13 @@ var _ = Describe("external/notte/http/notte_user_client", func() {
 			StatusCode: http.StatusBadRequest,
 			Body:       map[string]string{},
 		}
-		NewTestNotteUserClient(response).Run(func(client *NotteUserClient) {
+		notte.NewUserClientTestCase(response).Run(func(client *UserClient) {
 			// given
 			request := MakeGetUserRequest()
+
 			// when
 			response, err := client.GetUser(request)
+
 			// then
 			Expect(response).To(BeNil())
 			Expect(err).ToNot(BeNil())
@@ -56,11 +61,13 @@ var _ = Describe("external/notte/http/notte_user_client", func() {
 			StatusCode: http.StatusOK,
 			Body:       map[string]string{},
 		}
-		NewTestNotteUserClient(response).Run(func(client *NotteUserClient) {
+		notte.NewUserClientTestCase(response).Run(func(client *UserClient) {
 			// given
 			request := MakeGetUserRequest()
+
 			// when
 			response, err := client.GetUser(request)
+
 			// then
 			Expect(response).To(BeNil())
 			Expect(err).ToNot(BeNil())

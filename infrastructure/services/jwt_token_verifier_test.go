@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var _ = Describe("infrastructure/servies/jwt_token_verifier", func() {
+var _ = Describe("infrastructure/services/jwt_token_verifier", func() {
 	Context("Verify", func() {
 		It("should verify a token successfully", func() {
 			// given
@@ -19,8 +19,10 @@ var _ = Describe("infrastructure/servies/jwt_token_verifier", func() {
 			user := factories.MakeUser()
 			token, _ := tokenGenerator.Generate(user)
 			tokenVerifier := services.NewJwtTokenVerifier(jwtConfig)
+
 			// when
 			userFromToken, err := tokenVerifier.Verify(token)
+
 			// then
 			Expect(err).To(BeNil())
 			Expect(userFromToken).ToNot(BeNil())
@@ -35,8 +37,10 @@ var _ = Describe("infrastructure/servies/jwt_token_verifier", func() {
 			token, _ := tokenGenerator.Generate(user)
 			jwtConfig.PublicKey = faker.Word()
 			tokenVerifier := services.NewJwtTokenVerifier(jwtConfig)
+
 			// when
 			userFromToken, err := tokenVerifier.Verify(token)
+
 			// then
 			Expect(err).ToNot(BeNil())
 			Expect(userFromToken).To(BeNil())
@@ -50,10 +54,13 @@ var _ = Describe("infrastructure/servies/jwt_token_verifier", func() {
 			claims := jwt.Map{"word": faker.Word()} // invalid claim
 			tokenBytes, _ := jwt.Sign(jwt.EdDSA, privateKey, claims, maxAge)
 			token := jwt.BytesToString(tokenBytes)
+
 			// given
 			tokenVerifier := services.NewJwtTokenVerifier(jwtConfig)
+
 			// when
 			userFromToken, err := tokenVerifier.Verify(token)
+
 			// then
 			Expect(err).ToNot(BeNil())
 			Expect(userFromToken).To(BeNil())

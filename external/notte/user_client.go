@@ -1,23 +1,23 @@
-package http
+package notte
 
 import (
-	"fmt"
+	"errors"
 	"github.com/imroc/req/v3"
 	"github.com/rafaph/notte-auth/config"
-	. "github.com/rafaph/notte-auth/infrastructure/repositories/http"
+	"github.com/rafaph/notte-auth/infrastructure/clients"
 	"github.com/rafaph/notte-auth/lib/validator"
 	"log"
 	"net/url"
 )
 
-type NotteUserClient struct {
+type UserClient struct {
 	config *config.UserConfig
 }
 
-func (n *NotteUserClient) GetUser(request GetUserRequest) (*GetUserResponse, error) {
+func (n *UserClient) GetUser(request clients.GetUserRequest) (*clients.GetUserResponse, error) {
 	endpoint, _ := url.JoinPath(n.config.BaseUrl, "users", "verify")
 
-	getUserResponse := GetUserResponse{}
+	getUserResponse := clients.GetUserResponse{}
 	var apiError map[string]interface{}
 
 	res, _ := req.
@@ -31,7 +31,7 @@ func (n *NotteUserClient) GetUser(request GetUserRequest) (*GetUserResponse, err
 
 	if res.IsError() {
 		log.Println("Fail to get resource", apiError)
-		return nil, fmt.Errorf("fail to get resource")
+		return nil, errors.New("fail to get resource")
 	}
 
 	err := validator.Validate(getUserResponse)
@@ -43,6 +43,6 @@ func (n *NotteUserClient) GetUser(request GetUserRequest) (*GetUserResponse, err
 	return &getUserResponse, nil
 }
 
-func NewNotteUserClient(config *config.UserConfig) *NotteUserClient {
-	return &NotteUserClient{config}
+func NewUserClient(config *config.UserConfig) *UserClient {
+	return &UserClient{config}
 }

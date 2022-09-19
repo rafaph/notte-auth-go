@@ -2,9 +2,9 @@ package factories
 
 import (
 	"github.com/go-faker/faker/v4"
-	"github.com/rafaph/notte-auth/infrastructure/repositories/http"
+	. "github.com/rafaph/notte-auth/infrastructure/clients"
 )
 
-func MakeGetUserRequest() http.GetUserRequest {
-	return http.GetUserRequest{Email: faker.Email(), Password: faker.Password()}
+func MakeGetUserRequest() GetUserRequest {
+	return GetUserRequest{Email: faker.Email(), Password: faker.Password()}
 }

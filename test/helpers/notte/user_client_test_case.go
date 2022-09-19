@@ -1,21 +1,22 @@
-package http
+package notte
 
 import (
 	"encoding/json"
 	. "github.com/rafaph/notte-auth/config"
-	. "github.com/rafaph/notte-auth/external/notte/http"
+	. "github.com/rafaph/notte-auth/external/notte"
+	. "github.com/rafaph/notte-auth/test/helpers/http"
 	"log"
 )
 
 const endpoint = "/users/verify"
 const method = "POST"
 
-type TestNotteUserClient struct {
+type UserClientTestCase struct {
 	Response *MockResponse
 }
 
-func (t *TestNotteUserClient) Run(callback func(client *NotteUserClient)) {
-	fakeServer := NewMockServer()
+func (t *UserClientTestCase) Run(callback func(client *UserClient)) {
+	server := NewMockServer()
 
 	body, isString := t.Response.Body.(string)
 	if !isString {
@@ -31,17 +32,17 @@ func (t *TestNotteUserClient) Run(callback func(client *NotteUserClient)) {
 		Body:       body,
 	}
 
-	fakeServer.When(method, endpoint).Return(response)
+	server.When(method, endpoint).Return(response)
 
-	fakeServer.Run(func(baseUrl string) {
+	server.Run(func(baseUrl string) {
 		conf := &UserConfig{BaseUrl: baseUrl}
-		client := NewNotteUserClient(conf)
+		client := NewUserClient(conf)
 		callback(client)
 	})
 }
 
-func NewTestNotteUserClient(response MockResponse) *TestNotteUserClient {
-	return &TestNotteUserClient{
+func NewUserClientTestCase(response MockResponse) *UserClientTestCase {
+	return &UserClientTestCase{
 		Response: &response,
 	}
 }

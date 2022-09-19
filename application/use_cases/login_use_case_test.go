@@ -12,9 +12,9 @@ import (
 	"testing"
 )
 
-func TestLoginUseCase(t *testing.T) {
+func TestUseCases(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Use Case Suite")
+	RunSpecs(t, "application/use_cases tests")
 }
 
 var _ = Describe("application/use_cases/login_use_case", func() {

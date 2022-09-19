@@ -1,4 +1,4 @@
-package http
+package clients
 
 type GetUserRequest struct {
 	Email    string `json:"email"`
